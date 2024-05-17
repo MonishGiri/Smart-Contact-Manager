@@ -1,24 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" data-th-href="@{'/css/output.css'}">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
+    <title>About Page</title>
 </head>
 <body>
-    <div class="bg-gray-200 w-1/2 p-4 mx-auto flex flex-col space-y-3 items-center">
-        <h1 data-th-text="${name}" class="text-2xl font-bold">Welcome to home page</h1>
-        <p class="text-xl text-gray-700">Name:  <span data-th-text="${MyName}"></span></p>
-        <p class="text-gray-600">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus blanditiis recusandae rerum impedit eaque, quam error harum minima doloremque, beatae quasi. Dicta ea voluptas explicabo illum dolores doloremque quod sunt quos, fugit accusamus laudantium quasi! Mollitia incidunt doloremque culpa saepe, officia explicabo modi ex temporibus! Libero hic iure placeat distinctio?
-        </p>
-        <div>
-            <button class="px-3 py-3 rounded bg-blue-700 text-white hover:bg-blue-600">Click Here</button>
-        </div>
+    <div id="content">
+        <h1>Welcome to Home page</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi deserunt neque fugit consequuntur repudiandae, veniam unde eligendi cupiditate amet dignissimos.</p>
     </div>
-    <!-- flow bite content-->
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <script>
+        console.log('Home page');
+    </script>
 </body>
 </html>
