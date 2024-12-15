@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>This is user profile page</h1>
+    <h1 data-th-text="${loggedInUser.name}"></h1>
+    <h1 data-th-text="${loggedInUser.email}"></h1>
+
+    <!-- if user is logged in -->
+    <div th:if="${loggedInUser}">
+        <h1>user is logged in</h1>
+    </div>
+    <a href="/logout">Logout</a>
+</body>
+</html>
