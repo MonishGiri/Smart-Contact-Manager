@@ -4,11 +4,23 @@
     <title data-th-text="${loggedInUser.name} + ' | SCM'">Profile Page</title>
 </head>
 <body>
-    <div id="content" class="p-64 pt-20" style="height: 1000px;">
-        <div class="flex justify-center flex-col items-center">
-            <h1 class="text-5xl">Welcome to Profile page</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi deserunt neque fugit consequuntur repudiandae, veniam unde eligendi cupiditate amet dignissimos.</p>
+
+    <div id="content">
+
+        <!-- sidebar -->
+
+        <!-- if user is logged in then sidebar -->
+      <div th:if="${loggedInUser}">
+        <div data-th-replace="~{user/sidebar :: sidebar}"></div>
+      </div>
+
+        <div class="sm:p-64 pt-20" style="height: 1000px;">
+            <div class="flex justify-center flex-col items-center">
+                <h1 class="text-5xl">Welcome to Profile page</h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi deserunt neque fugit consequuntur repudiandae, veniam unde eligendi cupiditate amet dignissimos.</p>
+            </div>
         </div>
+
     </div>
     <script>
         console.log('Profile page');
