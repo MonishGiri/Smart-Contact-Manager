@@ -60,7 +60,8 @@
                   </div>
                   <p
                     class="text-red-500"
-                    
+                    data-th-if="${#fields.hasErrors('name')}"
+                    data-th-errors="*{name}"
                   >
                     Invalid Name
                   </p>
@@ -88,7 +89,8 @@
                   </div>
                   <p
                     class="text-red-500"
-                    
+                    data-th-if="${#fields.hasErrors('email')}"
+                    data-th-errors="*{email}"
                   >
                     Invalid Name
                   </p>
@@ -116,7 +118,8 @@
                   </div>
                   <p
                     class="text-red-500"
-                    
+                    data-th-if="${#fields.hasErrors('phoneNumber')}"
+                    data-th-errors="*{phoneNumber}"
                   >
                     Invalid Name
                   </p>
@@ -138,7 +141,8 @@
                   ></textarea>
                   <p
                     class="text-red-500"
-                   
+                    data-th-if="${#fields.hasErrors('address')}"
+                    data-th-errors="*{address}"
                   >
                     Invalid Name
                   </p>

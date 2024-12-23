@@ -11,7 +11,7 @@ import com.scm.helper.ResourceNotFoundException;
 import com.scm.repositories.ContactRepo;
 import com.scm.services.ContactService;
 
-
+@Service
 public class ContactServiceImpl implements ContactService{
 
     @Autowired

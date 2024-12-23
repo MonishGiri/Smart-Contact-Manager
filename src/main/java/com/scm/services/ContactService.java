@@ -1,9 +1,12 @@
 package com.scm.services;
 
 import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.scm.entities.Contact;
 
-
+@Service
 public interface ContactService {
     
     // save contacts

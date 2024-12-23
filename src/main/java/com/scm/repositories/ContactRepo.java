@@ -15,6 +15,6 @@ public interface ContactRepo extends JpaRepository<Contact,String>{
     List<Contact> findByUser(User user);
 
     // custom query method
-    @Query("SELECT c FROM CONTACT c WHERE c.user.id = :userId")
+    @Query("SELECT c FROM Contact c WHERE c.user.id = :userId")
     List<Contact> findByUserId(@Param("userId") String userId);
 }
