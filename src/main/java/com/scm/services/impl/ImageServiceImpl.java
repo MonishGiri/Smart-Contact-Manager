@@ -23,10 +23,10 @@ public class ImageServiceImpl implements ImageService{
     }
 
     @Override
-    public String uploadImage(MultipartFile contactImage) {
+    public String uploadImage(MultipartFile contactImage, String fileName) {
         // code to upload image on cloud and return the url
 
-        String fileName = UUID.randomUUID().toString();
+        
         try {
             byte[] data = new byte[contactImage.getInputStream().available()];
 

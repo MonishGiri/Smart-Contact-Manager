@@ -1,5 +1,7 @@
 package com.scm.controllers;
 
+import java.util.UUID;
+
 import org.slf4j.Logger ;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -71,8 +74,9 @@ public class ContactController {
 
         User user = userService.getUserByEmail(userName);
 
+        String fileName = UUID.randomUUID().toString();
         // code for uploading the image
-        String fileUrl = imageService.uploadImage(contactForm.getContactImage());
+        String fileUrl = imageService.uploadImage(contactForm.getContactImage(), fileName);
 
         Contact contact = new Contact();
         contact.setName(contactForm.getName());
@@ -85,6 +89,7 @@ public class ContactController {
         contact.setLinkedInLink(contactForm.getLinkedInLink());
         contact.setUser(user);
         contact.setPicture(fileUrl);
+        contact.setCloudinaryImagePublicId(fileName);
         contactService.save(contact);
 
         // set contact picture url
@@ -95,5 +100,11 @@ public class ContactController {
         .type(MessageType.green)
         .build());
         return "redirect:/user/contact/add";
+    }
+
+    // view contacts
+    @GetMapping
+    public String viewContacts(){
+        return "user/contacts";
     }
 }
