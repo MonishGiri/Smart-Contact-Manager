@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.scm.entities.Contact;
 import com.scm.entities.User;
 import com.scm.forms.ContactForm;
+import com.scm.helper.AppConstants;
 import com.scm.helper.Helper;
 import com.scm.helper.Message;
 import com.scm.helper.MessageType;
@@ -110,7 +111,7 @@ public class ContactController {
     @GetMapping
     public String viewContacts(
         @RequestParam(value = "page", defaultValue = "0") int page, 
-        @RequestParam(value = "size", defaultValue = "0") int size, 
+        @RequestParam(value = "size", defaultValue = "3") int size, 
         @RequestParam(value = "sortBy", defaultValue = "name") String sortBy,
         @RequestParam(value = "direction", defaultValue = "asc") String sortDirection,
       Authentication authentication, Model model){
@@ -119,6 +120,7 @@ public class ContactController {
         String username = Helper.getEmailOfLoggedInUser(authentication);
         User user = userService.getUserByEmail(username);
         Page<Contact> pageContacts =  contactService.getByUser(user,page,size, sortBy, sortDirection);
+        model.addAttribute("pageSize",AppConstants.PAGE_SIZE);
         model.addAttribute("pageContact",pageContacts);
         
         return "user/contacts";
