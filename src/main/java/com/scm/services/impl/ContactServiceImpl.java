@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -49,11 +50,6 @@ public class ContactServiceImpl implements ContactService{
         contactRepo.delete(contact);
     }
 
-    @Override
-    public List<Contact> searchContact(String email, String name, String phoneNumber) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'searchContact'");
-    }
 
     @Override
     public List<Contact> getByUserId(String userId) {
@@ -66,5 +62,29 @@ public class ContactServiceImpl implements ContactService{
         var pageable = PageRequest.of(page, size, sort);
         return contactRepo.findByUser(user, pageable);
     }
+
+    @Override
+    public Page<Contact> searchByName(String nameKeyword, int size, int page, String sortBy, String order) {
+        Sort sort = order.equals("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
+        var pageable = PageRequest.of(page, size, sort);
+        return contactRepo.findByNameContaining(nameKeyword, pageable);
+    }
+
+    @Override
+    public Page<Contact> searchByEmail(String emailKeyword, int size, int page, String sortBy, String order) {
+        Sort sort = order.equals("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
+        var pageable = PageRequest.of(page, size, sort);
+        return contactRepo.findByEmailContaining(emailKeyword, pageable);
+    }
+
+    @Override
+    public Page<Contact> searchByPhoneNumber(String phoneNumberKeyword, int size, int page, String sortBy,
+            String order) {
+                Sort sort = order.equals("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
+                var pageable = PageRequest.of(page, size, sort);
+                return contactRepo.findByPhoneNumberContaining(phoneNumberKeyword, pageable);
+    }
+
+    
 
 }
