@@ -1,13 +1,12 @@
 package com.scm.controllers;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.slf4j.Logger ;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.scm.entities.Contact;
 import com.scm.entities.User;
 import com.scm.forms.ContactForm;
+import com.scm.forms.ContactSearchForm;
 import com.scm.helper.AppConstants;
 import com.scm.helper.Helper;
 import com.scm.helper.Message;
@@ -122,6 +122,7 @@ public class ContactController {
         Page<Contact> pageContacts =  contactService.getByUser(user,page,size, sortBy, sortDirection);
         model.addAttribute("pageSize",AppConstants.PAGE_SIZE);
         model.addAttribute("pageContact",pageContacts);
+        model.addAttribute("contactSearchForm", new ContactSearchForm());
         
         return "user/contacts";
     }
@@ -130,30 +131,33 @@ public class ContactController {
 
     @GetMapping("/search")
     public String searchHandler(
-        @RequestParam("field") String field,
-        @RequestParam("keyword") String keyword,
+        @ModelAttribute ContactSearchForm contactSearchForm,
         @RequestParam(value="size", defaultValue = AppConstants.PAGE_SIZE+"") int size,
         @RequestParam(value="page", defaultValue = "0") int page,
         @RequestParam(value="sortBy", defaultValue = "name") String sortBy,
         @RequestParam(value="direction", defaultValue = "asc") String order,
-        Model model
+        Model model,
+        Authentication authentication
     ){
-        logger.info("field {} keyword {}",field, keyword);
+        logger.info("field {} keyword {}",contactSearchForm.getField(), contactSearchForm.getKeyword());
+
+        var user = userService.getUserByEmail(Helper.getEmailOfLoggedInUser(authentication));
 
         Page<Contact> pageContact = null;
-        if(field.equalsIgnoreCase("name")){
-            pageContact = contactService.searchByName(keyword, size, page, sortBy, order);
+        if(contactSearchForm.getField().equalsIgnoreCase("name")){
+            pageContact = contactService.searchByName(contactSearchForm.getKeyword(), size, page, sortBy, order, user);
         }
-        else if(field.equalsIgnoreCase("email")){
-            pageContact = contactService.searchByEmail(keyword, size, page, sortBy, order);
+        else if(contactSearchForm.getField().equalsIgnoreCase("email")){
+            pageContact = contactService.searchByEmail(contactSearchForm.getKeyword(), size, page, sortBy, order, user);
         }
-        else if(field.equalsIgnoreCase("phoneNumber")){
-            pageContact = contactService.searchByPhoneNumber(keyword, size, page, sortBy, order);
+        else if(contactSearchForm.getField().equalsIgnoreCase("phoneNumber")){
+            pageContact = contactService.searchByPhoneNumber(contactSearchForm.getKeyword(), size, page, sortBy, order, user);
         }
-        logger.info("Field: {}, Keyword: {}", field, keyword);
+        logger.info("Field: {}, Keyword: {}", contactSearchForm.getField(), contactSearchForm.getKeyword());
         model.addAttribute("pageContact", pageContact);
+        model.addAttribute("pageSize", AppConstants.PAGE_SIZE);
         logger.info("pageContact {}", pageContact);
         return "user/search";
     }
-    
+
 }

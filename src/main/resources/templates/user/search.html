@@ -21,18 +21,19 @@
             </div>
             <div class="contacts_container p-5 text-center justify-center">
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                  <form action="" data-th-action="@{'/user/contact/search'}">
+                  <form action="" data-th-action="@{'/user/contact/search'}" data-th-object="${contactSearchForm}">
                     <div
                     class="p-5 space-x-3 flex items-center justify-start flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900"
                   >
                     <!-- select box -->
                     <div>
                       <select
+                        data-th-field="*{field}"
                         name="field"
                         id="countries_disabled"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       >
-                        <option selected>Find By</option>
+                        <option selected value="">Find By</option>
                         <option value="name">Name</option>
                         <option value="phoneNumber">Phone Number</option>
                         <option value="email">Email</option>
@@ -61,6 +62,7 @@
                         </svg>
                       </div>
                       <input
+                      data-th-field="*{keyword}"
                         name="keyword"
                         type="text"
                         id="table-search-users"
@@ -154,7 +156,7 @@
                       <ul class="inline-flex -space-x-px text-base h-10">
                         <li data-th-unless="${pageContact.first}">
                           <a
-                            data-th-href="@{'/user/contact?size='+${pageSize}+'&page='+${pageContact.number - 1}}"
+                          data-th-href="@{'/user/contacts/search?size='+${pageSize}+'&page='+${pageContact.number-1}+'&field='+${contactSearchForm.field}+'&value='+${contactSearchForm.value}  }"
                             class="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                             >Previous</a
                           >
@@ -163,7 +165,7 @@
                           data-th-each="index : ${#numbers.sequence(0,pageContact.totalPages-1)}"
                         >
                           <a
-                            data-th-href="@{'/user/contact?size='+${pageSize}+'&page='+${index}}"
+                          data-th-href="@{'/user/contact/search?size='+${pageSize}+'&page='+${index}+'&field='+${contactSearchForm.field}+'&value='+${contactSearchForm.value}  }"
                             href="#"
                             data-th-classappend="${index==pageContact.number? 'bg-blue-50  dark:bg-gray-600' : 'bg-white dark:bg-gray-800'}"
                             class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
@@ -174,7 +176,7 @@
     
                         <li data-th-unless="${pageContact.last}">
                           <a
-                            data-th-href="@{'/user/contact?size='+${pageSize}+'&page='+${pageContact.number + 1}}"
+                            data-th-href="@{'/user/contact/search?size='+${pageSize}+'&page='+${pageContact.number+1}+'&field='+${contactSearchForm.field}+'&value='+${contactSearchForm.value}  }"
                             class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                             >Next</a
                           >

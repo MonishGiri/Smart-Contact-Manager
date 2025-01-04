@@ -24,18 +24,19 @@
 
           <div class="contacts_container p-5 text-center justify-center">
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-              <form action="" data-th-action="@{'/user/contact/search'}">
+              <form 
+              action="" data-th-action="@{'/user/contact/search'}" data-th-object="${contactSearchForm}">
                 <div
                 class="p-5 space-x-3 flex items-center justify-start flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900"
               >
                 <!-- select box -->
                 <div>
                   <select
-                    name="field"
+                    data-th-field="*{field}"
                     id="countries_disabled"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   >
-                    <option selected>Find By</option>
+                    <option selected value="">Find By</option>
                     <option value="name">Name</option>
                     <option value="phoneNumber">Phone Number</option>
                     <option value="email">Email</option>
@@ -64,7 +65,7 @@
                     </svg>
                   </div>
                   <input
-                    name="keyword"
+                    data-th-field="*{keyword}"
                     type="text"
                     id="table-search-users"
                     class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
