@@ -141,6 +141,8 @@ public class ContactController {
     ){
         logger.info("field {} keyword {}",contactSearchForm.getField(), contactSearchForm.getKeyword());
 
+        System.out.println("Keyword is: "+contactSearchForm.getKeyword());
+
         var user = userService.getUserByEmail(Helper.getEmailOfLoggedInUser(authentication));
 
         Page<Contact> pageContact = null;
@@ -153,8 +155,13 @@ public class ContactController {
         else if(contactSearchForm.getField().equalsIgnoreCase("phoneNumber")){
             pageContact = contactService.searchByPhoneNumber(contactSearchForm.getKeyword(), size, page, sortBy, order, user);
         }
+
+        for (Contact contact : pageContact) {
+            System.out.print(contact+" ");
+        }
         logger.info("Field: {}, Keyword: {}", contactSearchForm.getField(), contactSearchForm.getKeyword());
         model.addAttribute("pageContact", pageContact);
+        model.addAttribute("contactSearchForm", contactSearchForm);
         model.addAttribute("pageSize", AppConstants.PAGE_SIZE);
         logger.info("pageContact {}", pageContact);
         return "user/search";

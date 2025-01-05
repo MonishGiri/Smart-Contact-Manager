@@ -76,6 +76,7 @@
               </div>
               </form>
               <table
+              data-th-unless="${pageContact.empty}"
                 class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
               >
                 <thead
@@ -153,7 +154,7 @@
               </table>
 
               <!-- pagination component -->
-              <div class="pagination_container p-5 text-center">
+              <div class="pagination_container p-5 text-center" data-th-unless="${pageContact.empty}">
                 <nav aria-label="Page navigation example">
                   <ul class="inline-flex -space-x-px text-base h-10">
                     <li data-th-unless="${pageContact.first}">
@@ -186,6 +187,7 @@
                   </ul>
                 </nav>
               </div>
+              <h1 class="text-5xl text-center dark:text-white  p-4" data-th-if="${pageContact.empty}">No Contacts found. First Add a Contact</h1>
             </div>
           </div>
         </div>
