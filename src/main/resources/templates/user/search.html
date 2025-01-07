@@ -141,11 +141,15 @@
                         </td>
                         <td class="px-6 py-4">
                           <div>
-                            <a href="">
+                            <a data-th-href="@{'/user/contact/delete/'+*{id}}">
                               <i class="fa-solid w-6 h-6 fa-trash"></i>
                             </a>
                             <a href=""> <i class="fa-solid w-6 h-6 fa-pen"></i> </a>
-                            <a href=""> <i class="fa-solid w-6 h-6 fa-eye"></i> </a>
+                            <button
+                          th:onclick="loadContactData([[${c.id}]])"
+                        >
+                          <i class="fa-solid w-6 h-6 fa-eye"></i>
+                        </button>
                           </div>
                         </td>
                       </tr>
@@ -190,9 +194,11 @@
                   <h1 class="text-5xl text-center dark:text-white  p-4" data-th-if="${pageContact.empty}">No result found</h1>
                 </div>
               </div>
+              <div data-th-replace="~{user/contact_modals :: contactModal}"></div>
         </div>
         
     </div>
+    <script data-th-src="@{'/js/contacts.js'}"></script>
     <script>
         console.log('Search page');
     </script>

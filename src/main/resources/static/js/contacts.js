@@ -1,4 +1,6 @@
 console.log('contact.js');
+
+const baseURL = "http://localhost:8081"
 const viewContactModal = document.getElementById("view_contact_modal");
 
 // options with default values
@@ -39,7 +41,7 @@ async function loadContactData(userId){
     console.log('hello')
     // function call to load data
     try {
-        const data = await (await fetch(`http://localhost:8081/api/contacts/${userId}`)).json();
+        const data = await (await fetch(`${baseURL}/api/contacts/${userId}`)).json();
         console.log(data);
         console.log(data.name);
         document.querySelector('#contact_name').innerHTML = data.name;
@@ -48,7 +50,7 @@ async function loadContactData(userId){
         document.querySelector('#contact_address').innerHTML = data.address;
         document.querySelector('#contact_about').innerHTML = data.description;
         const favorite = document.querySelector('#contact_favorite');
-        favorite.innerHTML = favorite ? 'Favorite Contact' : 'Not Favorite Contact';
+        favorite.innerHTML = data.favorite ? '<i class="fa-solid fa-star text-yellow-300"></i>' : 'Not Favorite Contact';
         const linkedIn = document.querySelector('#contact_linkedIn');
         linkedIn.setAttribute('href',data.linkedInLink);
         linkedIn.textContent = data.linkedInLink;
@@ -66,4 +68,23 @@ async function loadContactData(userId){
     }
     openContactModal();
 
+}
+
+// delete contact
+
+async function deleteContact(id){
+Swal.fire({
+  title: "Do you want to Delete the Contact?",
+  icon: "warning",
+  showCancelButton: true,
+  cancelButtonColor:"#808080",
+  confirmButtonText: "Delete",
+  confirmButtonColor:"#880808"
+}).then((result) => {
+  /* Read more about isConfirmed, isDenied below */
+  if (result.isConfirmed) {
+    const url = baseURL+"/user/contact/delete/"+id;
+    window.location.replace(url);
+  } 
+});
 }
