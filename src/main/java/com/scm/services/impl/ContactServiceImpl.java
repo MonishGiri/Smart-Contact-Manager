@@ -30,8 +30,21 @@ public class ContactServiceImpl implements ContactService{
 
     @Override
     public Contact update(Contact contact) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        var oldContact = contactRepo.findById(contact.getId()).orElseThrow(() -> new ResourceNotFoundException("Contact Not found"));
+        System.out.println("Old contact : "+oldContact);
+        oldContact.setName(contact.getName());
+        oldContact.setEmail(contact.getEmail());
+        oldContact.setAddress(contact.getAddress());
+        oldContact.setFavorite(contact.isFavorite());
+        oldContact.setDescription(contact.getDescription());
+        oldContact.setPhoneNumber(contact.getPhoneNumber());
+        oldContact.setPicture(contact.getPicture());
+        oldContact.setWebsiteLink(contact.getWebsiteLink());
+        oldContact.setLinkedInLink(contact.getLinkedInLink());
+        oldContact.setCloudinaryImagePublicId(contact.getCloudinaryImagePublicId());
+
+        System.out.println("Picture is: "+oldContact.getPicture());
+        return contactRepo.save(oldContact);
     }
 
     @Override

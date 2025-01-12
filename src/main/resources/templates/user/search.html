@@ -23,6 +23,7 @@
             </div>
             <div class="contacts_container p-5 text-center justify-center">
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                  <div data-th-replace="~{message :: messagebox}"></div>
                   <form action="" data-th-action="@{'/user/contact/search'}" data-th-object="${contactSearchForm}">
                     <div
                     class="p-5 space-x-3 flex items-center justify-start flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900"
@@ -141,9 +142,12 @@
                         </td>
                         <td class="px-6 py-4">
                           <div>
-                            <a data-th-href="@{'/user/contact/delete/'+*{id}}">
+                            <!-- <a data-th-href="@{'/user/contact/delete/'+*{id}}">
                               <i class="fa-solid w-6 h-6 fa-trash"></i>
-                            </a>
+                            </a> -->
+                            <button th:onclick="deleteContact([[${c.id}]])">
+                              <i class="fa-solid w-6 h-6 fa-trash"></i>
+                            </button>
                             <a href=""> <i class="fa-solid w-6 h-6 fa-pen"></i> </a>
                             <button
                           th:onclick="loadContactData([[${c.id}]])"

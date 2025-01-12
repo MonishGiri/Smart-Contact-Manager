@@ -174,9 +174,75 @@ public class ContactController {
         System.out.println("Hello inside delete method");
         contactService.deleteContact(contactId);
         logger.info("contactId {} deleted",contactId);
-        Message.builder().content("Contact Deleted Successfully").type(MessageType.green).build();
-        session.setAttribute("message", session);
+        
+        session.setAttribute("message", Message.builder().content("Contact Deleted Successfully").type(MessageType.green).build());
         return "redirect:/user/contact";
+    }
+
+    // update contact form view
+    @GetMapping("/view/{contactId}")
+    public String updateContactFormView(
+        @PathVariable String contactId,
+        Model model
+    ){
+        var contact = contactService.getContactById(contactId);
+        
+        ContactForm contactForm =  new ContactForm();
+        contactForm.setName(contact.getName());
+        contactForm.setAddress(contact.getAddress());
+        contactForm.setEmail(contact.getEmail());
+        contactForm.setDescription(contact.getDescription());
+        contactForm.setPhoneNumber(contact.getPhoneNumber());
+        contactForm.setFavorite(contact.isFavorite());
+        contactForm.setWebsiteLink(contact.getWebsiteLink());
+        contactForm.setLinkedInLink(contact.getLinkedInLink());
+        contactForm.setPicture(contact.getPicture());
+        System.out.println("Contact Image: "+contact.getPicture());
+        System.out.println("contact form obj "+contactForm);
+        model.addAttribute("contactForm", contactForm);
+        model.addAttribute("contactId", contactId);
+
+        model.addAttribute("contactForm", contactForm);
+        return "user/update_contact_view";
+    }
+
+    @PostMapping("/update/{contactId}")
+    public String updateContact(@PathVariable("contactId") String contactId, @Valid @ModelAttribute ContactForm contactForm, BindingResult bindingResult , Model model){
+
+        // update the contact
+        if (bindingResult.hasErrors()) {
+            return "user/update_contact_view";
+        }
+
+        var con = contactService.getContactById(contactId);
+        con.setId(contactId);
+        con.setName(contactForm.getName());
+        con.setAddress(contactForm.getAddress());
+        con.setPhoneNumber(contactForm.getPhoneNumber());
+        con.setEmail(contactForm.getEmail());
+        con.setDescription(contactForm.getDescription());
+        con.setFavorite(contactForm.isFavorite());
+        con.setLinkedInLink(contactForm.getLinkedInLink());
+        con.setWebsiteLink(contactForm.getWebsiteLink());
+
+        // Process Image
+
+        if(contactForm.getContactImage() != null && !contactForm.getContactImage().isEmpty()){
+            logger.info("file is not empty ");
+        String fileName = UUID.randomUUID().toString();
+        String imageUrl = imageService.uploadImage(contactForm.getContactImage(), fileName);
+        con.setCloudinaryImagePublicId(fileName);
+        con.setPicture(imageUrl);
+        contactForm.setPicture(imageUrl);
+        }
+        else{
+            logger.info("file is not empty");
+        }
+
+        var updatedCon = contactService.update(con);
+        System.out.println("updated Contact "+updatedCon);
+        model.addAttribute("message", Message.builder().content("Contact Updated").type(MessageType.green).build());
+        return "redirect:/user/contact/view/"+contactId;
     }
 
 }

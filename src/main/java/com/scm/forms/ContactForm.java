@@ -42,4 +42,6 @@ public class ContactForm {
 
     // will create annotation to validate file
     private MultipartFile contactImage;
+
+    private String picture;
 }
