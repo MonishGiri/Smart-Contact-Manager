@@ -53,7 +53,7 @@ public class User implements UserDetails{
 
     @Builder.Default
     @Getter(value = AccessLevel.NONE)
-    private boolean enabled = true;
+    private boolean enabled = false;
 
     @Builder.Default
     private boolean emailVerified = false;

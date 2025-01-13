@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.slf4j.Logger ;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.jms.JmsProperties.Listener.Session;
 import org.springframework.data.domain.Page;
 
 import org.springframework.security.core.Authentication;
@@ -207,7 +208,7 @@ public class ContactController {
     }
 
     @PostMapping("/update/{contactId}")
-    public String updateContact(@PathVariable("contactId") String contactId, @Valid @ModelAttribute ContactForm contactForm, BindingResult bindingResult , Model model){
+    public String updateContact(@PathVariable("contactId") String contactId, @Valid @ModelAttribute ContactForm contactForm, BindingResult bindingResult , Model model, HttpSession session){
 
         // update the contact
         if (bindingResult.hasErrors()) {
@@ -241,7 +242,11 @@ public class ContactController {
 
         var updatedCon = contactService.update(con);
         System.out.println("updated Contact "+updatedCon);
-        model.addAttribute("message", Message.builder().content("Contact Updated").type(MessageType.green).build());
+        session.setAttribute("message",  Message.builder()
+        .content("Contact Updated Sucessfully")
+        .type(MessageType.green)
+        .build());
+        
         return "redirect:/user/contact/view/"+contactId;
     }
 
