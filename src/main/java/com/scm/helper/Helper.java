@@ -1,11 +1,8 @@
 package com.scm.helper;
 
-import java.security.Principal;
 
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 public class Helper {
@@ -41,5 +38,12 @@ public class Helper {
             return authentication.getName();
         }
 
+    }
+
+    public static String getLinkForEmailVerification(String emailToken){
+
+        String link = "http://localhost:8081/auth/verify-email?token="+emailToken;
+
+        return link;
     }
 }
