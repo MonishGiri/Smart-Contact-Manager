@@ -2,28 +2,68 @@
 <html lang="en" th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}">
 <head>
     <title data-th-text="${loggedInUser.name} + ' | SCM'">Profile Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
 
     <div id="content">
 
-        <!-- sidebar -->
-
-        <!-- if user is logged in then sidebar -->
-      <div th:if="${loggedInUser}">
-        <div data-th-replace="~{user/sidebar :: sidebar}"></div>
-      </div>
-
-        <div class="sm:p-64 pt-20" style="height: 1000px;">
-            <div class="flex justify-center flex-col items-center">
-                <h1 class="text-5xl">Welcome to Profile page</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi deserunt neque fugit consequuntur repudiandae, veniam unde eligendi cupiditate amet dignissimos.</p>
-            </div>
+        <!-- Sidebar (Visible if the user is logged in) -->
+        <div th:if="${loggedInUser}">
+            <div data-th-replace="~{user/sidebar :: sidebar}"></div>
         </div>
 
+        <!-- Profile Content -->
+        <div class="sm:px-16 px-4 pt-20">
+            <div class="flex justify-center flex-col items-center">
+                <h1 class="text-3xl md:text-5xl font-bold mb-4">Welcome to Profile Page</h1>
+            </div>
+
+            <!-- Profile Card -->
+            <div class="max-w-sm mx-auto mt-10">
+                <div class="rounded-lg border bg-white dark:bg-gray-800 px-4 pt-8 pb-10 shadow-lg transition duration-300">
+                    
+                    <!-- Profile Image -->
+                    <div class="relative mx-auto w-36 rounded-full ">
+                        <span class="absolute right-0 m-3 h-3 w-3 rounded-full bg-green-500 ring-2 ring-green-300 dark:ring-gray-700 ring-offset-2"></span>
+                        <img
+                        onerror="this.src='https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3467.jpg?w=360'"
+                        class="w-15 h-15 rounded-full"
+                        data-th-src="${loggedInUser.getProfilePic()}"
+                        src="/docs/images/people/profile-picture-1.jpg"
+                        alt="Jese image"
+                      />
+                      
+                    </div>
+                    <h1 class="my-1 text-center text-xl font-bold leading-8 text-gray-900 dark:text-gray-100" data-th-text="${loggedInUser.name}"></h1>
+                    <h3 class="font-lg text-semibold text-center leading-6 text-gray-600 dark:text-gray-400" data-th-text="${loggedInUser.email}"></h3>
+                    <p data-th-text="${loggedInUser.about}" class="text-center text-sm leading-6 text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                        
+                    </p>
+
+                    <!-- User Details -->
+                    <ul class="mt-3 divide-y rounded bg-gray-100 dark:bg-gray-700 py-2 px-3 text-gray-600 dark:text-gray-300 shadow-sm hover:shadow">
+                        <li class="flex items-center py-3 text-sm">
+                            <span>Status</span>
+                            <span class="ml-auto">
+                                <span class="rounded-full bg-green-200 dark:bg-green-900 py-1 px-2 text-xs font-medium text-green-700 dark:text-green-200">
+                                    Active
+                                </span>
+                            </span>
+                        </li>
+                        <li class="flex items-center py-3 text-sm">
+                            <span>Phone Number</span>
+                            <span class="ml-auto" data-th-text="${loggedInUser.phoneNumber}"></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- Tailwind Debugging Script -->
     <script>
-        console.log('Profile page');
+        console.log('Profile page loaded successfully');
     </script>
 </body>
 </html>

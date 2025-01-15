@@ -23,17 +23,16 @@
           <p class="text-center">List of Contacts</p>
 
           <div class="contacts_container p-5 text-center justify-center">
-            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-
-              <div data-th-replace="~{message :: messagebox}"></div>
-
+            <div
+              class="items-center flex md:flex-row flex-col justify-between bg-white dark:bg-gray-900 px-4"
+            >
               <form
                 action=""
                 data-th-action="@{'/user/contact/search'}"
                 data-th-object="${contactSearchForm}"
               >
                 <div
-                  class="p-5 space-x-3 flex items-center justify-start flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900"
+                  class="p-5 space-x-3 flex items-center justify-start flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4"
                 >
                   <!-- select box -->
                   <div>
@@ -86,16 +85,31 @@
                   </button>
                 </div>
               </form>
+
+              <div>
+                <button
+                  type="button"
+                  onclick="exportData()"
+                  class="px-3 py-2 text-white bg-green-700 rounded-lg"
+                >
+                  Export
+                </button>
+              </div>
+            </div>
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+              <div data-th-replace="~{message :: messagebox}"></div>
+
               <table
+                id="contact_table"
                 data-th-unless="${pageContact.empty}"
-                class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 "
               >
                 <thead
                   class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
                 >
                   <tr>
                     <th scope="col" class="px-6 py-3">Name</th>
-                    <th scope="col" class="px-6 py-3">Position</th>
+                    <th scope="col" class="px-6 py-3">Phone Number</th>
                     <th scope="col" class="px-6 py-3">Links</th>
                     <th scope="col" class="px-6 py-3">Action</th>
                   </tr>
@@ -104,7 +118,7 @@
                   <tr
                     data-th-object="${c}"
                     data-th-each="c : ${pageContact.getContent()}"
-                    class="bg-white  border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                   >
                     <th
                       scope="row"
@@ -163,15 +177,81 @@
                         </button>
 
                         <!-- Update contact Button -->
-                        <a data-th-href="@{'/user/contact/view/'+*{id}}"> <i class="fa-solid w-6 h-6 fa-pen"></i> </a>
+                        <a data-th-href="@{'/user/contact/view/'+*{id}}">
+                          <i class="fa-solid w-6 h-6 fa-pen"></i>
+                        </a>
 
                         <!-- view contact button -->
-                        <button
-                          th:onclick="loadContactData([[${c.id}]])"
-                        >
+                        <button th:onclick="loadContactData([[${c.id}]])">
                           <i class="fa-solid w-6 h-6 fa-eye"></i>
                         </button>
                       </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <table
+            
+                id="contact_export_table"
+                data-th-unless="${pageContact.empty}"
+                class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 hidden"
+              >
+                <thead
+                  class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+                >
+                  <tr>
+                    <th scope="col" class="px-6 py-3">Name</th>
+                    <th scope="col" class="px-6 py-3">Phone Number</th>
+                    <th scope="col" class="px-6 py-3">Email</th>
+                    <th scope="col" class="px-6 py-3">Linkedin Link</th>
+                    <th scope="col" class="px-6 py-3">Website Link</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    data-th-object="${c}"
+                    data-th-each="c : ${pageContact.getContent()}"
+                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                  >
+                    <th
+                      scope="row"
+                      class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
+                    >
+                      <img
+                        onerror="this.src='https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3467.jpg?w=360'"
+                        class="w-10 h-10 rounded-full"
+                        data-th-src="@{*{picture}}"
+                        src="/docs/images/people/profile-picture-1.jpg"
+                        alt="Jese image"
+                      />
+                      <div class="ps-3">
+                        <div
+                          class="text-base font-semibold"
+                          data-th-text="*{name}"
+                        >
+                          Neil Sims
+                        </div>
+                      </div>
+                    </th>
+
+                    <td class="px-6 py-4">
+                      <i class="fa-solid fa-phone"></i>
+                      <span data-th-text="*{phoneNumber}"></span>
+                    </td>
+                    
+                    <td class="px-6 py-4">
+                      <i class="fa-solid fa-phone"></i>
+                      <span data-th-text="*{email}"></span>
+                    </td>
+
+
+
+                    <td>
+                        <span data-th-text="*{linkedInLink}"></span>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span data-th-text="*{websiteLink}"></span>
                     </td>
                   </tr>
                 </tbody>
@@ -226,9 +306,18 @@
         <div data-th-replace="~{user/contact_modals :: contactModal}"></div>
       </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/@linways/table-to-excel@1.0.4/dist/tableToExcel.min.js"></script>
     <script data-th-src="@{'/js/contacts.js'}"></script>
     <script>
-      console.log("Profile page");
+      console.log("Contacts page");
+      function exportData() {
+        TableToExcel.convert(document.getElementById("contact_export_table"), {
+          name: "contact.xlsx",
+          sheet: {
+            name: "Sheet 1",
+          },
+        });
+      }
     </script>
   </body>
 </html>
