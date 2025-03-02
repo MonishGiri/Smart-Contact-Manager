@@ -5,16 +5,21 @@
   aria-label="Sidebar"
 >
   <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-    <a href="https://flowbite.com/" class="flex items-center ps-2.5 mb-5">
+    <a href="https://flowbite.com/" class="flex flex-col items-center ps-2.5 mb-8">
       <img
-        src="https://flowbite.com/docs/images/logo.svg"
-        class="h-6 me-3 sm:h-7"
-        alt="Flowbite Logo"
-      />
-      <span
+                        onerror="this.src='https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3467.jpg?w=360'"
+                        class="h-16 shadow-lg me-3 rounded-full sm:h-24"
+                        data-th-src="${loggedInUser.getProfilePic()}"
+                        src="/docs/images/people/profile-picture-1.jpg"
+                        alt="Jese image"
+                      />
+      
+      
+        <span data-th-text="${loggedInUser.name}" class="text-gray-500"></span>
+
+        <span
         class="self-center text-xl font-semibold whitespace-nowrap dark:text-white"
-        >Welcome to SCM</span
-      >
+        >Welcome to SCM</span>
     </a>
     <ul class="space-y-2 font-medium">
       <li>
